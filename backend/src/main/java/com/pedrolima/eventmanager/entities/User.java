@@ -1,57 +1,51 @@
 package com.pedrolima.eventmanager.entities;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "tb_users")
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	private String id;
 
 	@Column(nullable = false)
 	private String name;
-	
-	@OneToMany(mappedBy = "id.user")
+
+	@OneToMany(mappedBy = "user")
 	private Set<Subscription> subscriptions = new HashSet<>();
 
 	public User() {
 
 	}
 
-	public User(Long id, String name) {
+	public User(String name) {
+		this.name = name;
+	}
+
+	public User(String id, String name) {
 		this.id = id;
 		this.name = name;
 	}
-	
-	//Listar os events de um user;
-	public List<Event> getEvents() {
-		List<Event> list = new ArrayList<>();
-		for(Subscription sub : subscriptions) {
-			list.add(sub.getEvent());
-		}
-		return list;
-	}
-	
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -65,6 +59,10 @@ public class User {
 
 	public Set<Subscription> getSubscriptions() {
 		return subscriptions;
+	}
+
+	public void setSubscriptions(Set<Subscription> subscriptions) {
+		this.subscriptions = subscriptions;
 	}
 
 	@Override

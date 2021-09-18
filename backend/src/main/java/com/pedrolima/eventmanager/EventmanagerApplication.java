@@ -44,7 +44,7 @@ public class EventmanagerApplication implements CommandLineRunner {
 		
 		eventRepository.save(event1);
 		
-		Subscription sub1 = new Subscription(event1, user2, Instant.now(), false);
+		Subscription sub1 = new Subscription(event1, user2, Instant.now(), 1, false);
 		
 		subscriptionRepository.save(sub1);
 	}

@@ -2,19 +2,19 @@ package com.pedrolima.eventmanager.entities;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -24,53 +24,52 @@ public class Event implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	private String id;
+
 	@Column(nullable = false)
 	private String name;
-	
+
 	@Column(nullable = false)
 	private Integer vacancies;
-	
-	@Column(nullable = false)
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-	private LocalDateTime beginDateAndTime;
-	
-	@Column(nullable = false)
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-	private LocalDateTime endDateAndTime;
 
-	@OneToMany(mappedBy = "id.event")
+	@Column(nullable = false)
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	private LocalDateTime beginDateTime;
+
+	@Column(nullable = false)
+	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+	private LocalDateTime endDateTime;
+
+	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
 	private Set<Subscription> subscriptions = new HashSet<>();
 
 	public Event() {
 
 	}
 
-	public Event(Long id, String name, Integer vacancies, LocalDateTime beginDateAndTime,
+	public Event(String name, Integer vacancies, LocalDateTime beginDateAndTime, LocalDateTime endDateAndTime) {
+		this.name = name;
+		this.vacancies = vacancies;
+		this.beginDateTime = beginDateAndTime;
+		this.endDateTime = endDateAndTime;
+	}
+
+	public Event(String id, String name, Integer vacancies, LocalDateTime beginDateTime,
 			LocalDateTime endDateAndTime) {
 		this.id = id;
 		this.name = name;
 		this.vacancies = vacancies;
-		this.beginDateAndTime = beginDateAndTime;
-		this.endDateAndTime = endDateAndTime;
-	}
-	
-	//Listar os inscritos de um evento;
-	public List<User> getUsers() {
-		List<User> list = new ArrayList<>();
-		for(Subscription sub : subscriptions) {
-			list.add(sub.getUser());
-		}
-		return list;
+		this.beginDateTime = beginDateTime;
+		this.endDateTime = endDateAndTime;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -90,24 +89,28 @@ public class Event implements Serializable {
 		this.vacancies = vacancies;
 	}
 
-	public LocalDateTime getBeginDateAndTime() {
-		return beginDateAndTime;
+	public LocalDateTime getBeginDateTime() {
+		return beginDateTime;
 	}
 
-	public void setBeginDateAndTime(LocalDateTime beginDateAndTime) {
-		this.beginDateAndTime = beginDateAndTime;
+	public void setBeginDateTime(LocalDateTime beginDateAndTime) {
+		this.beginDateTime = beginDateAndTime;
 	}
 
-	public LocalDateTime getEndDateAndTime() {
-		return endDateAndTime;
+	public LocalDateTime getEndDateTime() {
+		return endDateTime;
 	}
 
-	public void setEndDateAndTime(LocalDateTime endDateAndTime) {
-		this.endDateAndTime = endDateAndTime;
+	public void setEndDateTime(LocalDateTime endDateAndTime) {
+		this.endDateTime = endDateAndTime;
 	}
 
 	public Set<Subscription> getSubscriptions() {
 		return subscriptions;
+	}
+
+	public void setSubscriptions(Set<Subscription> subscriptions) {
+		this.subscriptions = subscriptions;
 	}
 
 	@Override
@@ -126,5 +129,5 @@ public class Event implements Serializable {
 		Event other = (Event) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	}
+
+}

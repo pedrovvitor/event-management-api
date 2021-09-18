@@ -4,58 +4,84 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-import javax.persistence.EmbeddedId;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
+
+import com.pedrolima.eventmanager.entities.enums.SubscriptionStatus;
 
 @Entity
+@Table(name = "tb_subscriptions")
 public class Subscription implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@JsonIgnore
-	@EmbeddedId
-	private SubscriptionPk id = new SubscriptionPk();
+	@Id
+	@GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	private String id;
+
+	@ManyToOne(cascade = CascadeType.MERGE)
+	//@JsonIgnoreProperties("subscriptions")
+	private Event event;
+
+	@ManyToOne
+	//@JsonIgnoreProperties("subscriptions")
+	private User user;
 
 	private Instant moment;
+
+	private Integer status;
 
 	private boolean isCheckedIn;
 
 	public Subscription() {
-		super();
+
 	}
 
-	public Subscription(Event event, User user, Instant moment, boolean isCheckedIn) {
-		super();
-		id.setEvent(event);
-		id.setUser(user);
+	public Subscription(Event event, User user, Instant moment, Integer status, boolean isCheckedIn) {
+		this.event = event;
+		this.user = user;
 		this.moment = moment;
+		this.status = status;
 		this.isCheckedIn = isCheckedIn;
 	}
 
-	@JsonIgnore
-	public Event getEvent() {
-		return id.getEvent();
+	public Subscription(String id, Event event, User user, Instant moment,Integer status, boolean isCheckedIn) {
+		this.id = id;
+		this.event = event;
+		this.user = user;
+		this.moment = moment;
+		this.status = status;
+		this.isCheckedIn = isCheckedIn;
 	}
 
-	public void setEvent(Event event) {
-		id.setEvent(event);
-	}
-
-	public User getUser() {
-		return id.getUser();
-	}
-
-	public void setUser(User user) {
-		id.setUser(user);
-	}
-
-	public SubscriptionPk getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(SubscriptionPk id) {
+	public void setId(String id) {
 		this.id = id;
+	}
+
+	public Event getEvent() {
+		return event;
+	}
+
+	public void setEvent(Event event) {
+		this.event = event;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Instant getMoment() {
@@ -64,6 +90,17 @@ public class Subscription implements Serializable {
 
 	public void setMoment(Instant moment) {
 		this.moment = moment;
+
+	}
+
+	public SubscriptionStatus getStatus() {
+		return SubscriptionStatus.toEnum(status);
+	}
+
+	public void setStatus(SubscriptionStatus status) {
+		if(status != null) {
+		this.status = status.getCod();
+		}
 	}
 
 	public boolean isCheckedIn() {
@@ -76,7 +113,7 @@ public class Subscription implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(event, user);
 	}
 
 	@Override
@@ -88,7 +125,7 @@ public class Subscription implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Subscription other = (Subscription) obj;
-		return Objects.equals(id, other.id);
+		return Objects.equals(event, other.event) && Objects.equals(user, other.user);
 	}
 
 }
