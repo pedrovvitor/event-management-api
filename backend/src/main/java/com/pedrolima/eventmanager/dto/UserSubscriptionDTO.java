@@ -7,7 +7,7 @@ import com.pedrolima.eventmanager.entities.enums.SubscriptionStatus;
 
 public class UserSubscriptionDTO {
 
-	private String subscriptionId;
+	private Long subscriptionId;
 	private Instant moment;
 	private SubscriptionStatus status;
 	private boolean isCheckedIn;
@@ -18,7 +18,7 @@ public class UserSubscriptionDTO {
 		super();
 	}
 
-	public UserSubscriptionDTO(String subscriptionId, Instant moment, SubscriptionStatus status, boolean isCheckedIn,
+	public UserSubscriptionDTO(Long subscriptionId, Instant moment, SubscriptionStatus status, boolean isCheckedIn,
 			EventDTO event) {
 		super();
 		this.subscriptionId = subscriptionId;
@@ -28,11 +28,11 @@ public class UserSubscriptionDTO {
 		this.event = event;
 	}
 
-	public String getSubscriptionId() {
+	public Long getSubscriptionId() {
 		return subscriptionId;
 	}
 
-	public void setSubscriptionId(String subscriptionId) {
+	public void setSubscriptionId(Long subscriptionId) {
 		this.subscriptionId = subscriptionId;
 	}
 

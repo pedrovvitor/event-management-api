@@ -37,7 +37,7 @@ public class EventService {
 		return eventRepository.findAll(pageable);
 	}
 
-	public Event findById(String id) {
+	public Event findById(Long id) {
 		return eventRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Event not found for id: " + id));
 	}
@@ -47,7 +47,7 @@ public class EventService {
 		return eventRepository.save(event);
 	}
 
-	public EventSubscriptionsDTO findAllEventSubscriptions(String id) {
+	public EventSubscriptionsDTO findAllEventSubscriptions(Long id) {
 		Event event = eventRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Event not found for Id: " + id));
 		EventSubscriptionsDTO responseDto = new EventSubscriptionsDTO();

@@ -10,11 +10,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -24,9 +23,8 @@ public class Event implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	@Column(nullable = false)
 	private String name;
@@ -56,7 +54,7 @@ public class Event implements Serializable {
 		this.endDateTime = endDateAndTime;
 	}
 
-	public Event(String id, String name, Integer vacancies, LocalDateTime beginDateTime,
+	public Event(Long id, String name, Integer vacancies, LocalDateTime beginDateTime,
 			LocalDateTime endDateAndTime) {
 		this.id = id;
 		this.name = name;
@@ -65,11 +63,11 @@ public class Event implements Serializable {
 		this.endDateTime = endDateAndTime;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

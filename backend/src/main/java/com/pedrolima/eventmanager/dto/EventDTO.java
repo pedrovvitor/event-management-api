@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class EventDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String id;
+	private Long id;
 
 	private String name;
 
@@ -24,7 +24,7 @@ public class EventDTO implements Serializable {
 
 	}
 
-	public EventDTO(String id, String name, Integer vacancies, LocalDateTime beginDateAndTime,
+	public EventDTO(Long id, String name, Integer vacancies, LocalDateTime beginDateAndTime,
 			LocalDateTime endDateAndTime) {
 		this.id = id;
 		this.name = name;
@@ -33,11 +33,11 @@ public class EventDTO implements Serializable {
 		this.endDateAndTime = endDateAndTime;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

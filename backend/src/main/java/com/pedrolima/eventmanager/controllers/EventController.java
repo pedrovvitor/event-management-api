@@ -40,12 +40,12 @@ public class EventController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<EventDTO> findById(@PathVariable String id) {
+	public ResponseEntity<EventDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok(eventMapper.toDTO(eventService.findById(id)));
 	}
 
-	@GetMapping(path = "/{id}/subscriptions")
-	public ResponseEntity<EventSubscriptionsDTO> findAllEventSubscriptions(@PathVariable String id) {
+	@GetMapping(path = "/subscriptions/{id}")
+	public ResponseEntity<EventSubscriptionsDTO> findAllEventSubscriptions(@PathVariable Long id) {
 		return ResponseEntity.ok(eventService.findAllEventSubscriptions(id));
 	}
 

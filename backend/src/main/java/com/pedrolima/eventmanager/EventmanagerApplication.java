@@ -37,14 +37,16 @@ public class EventmanagerApplication implements CommandLineRunner {
 
 		User user1 = new User(null, "Pedro Lima");
 		User user2 = new User(null, "Augusto dos Anjos");
+		User user3 = new User(null, "Mario Andreazza");
 		
-		userRepository.saveAll(Arrays.asList(user1, user2));
+		userRepository.saveAll(Arrays.asList(user1, user2, user3));
 		
 		Event event1 = new Event(null, "Desafio BeHoh", 10, LocalDateTime.of(2021, 9, 15, 10, 00), LocalDateTime.of(2021, 9, 19, 10, 00));
+		Event event2 = new Event(null, "Evento Teste", 10, LocalDateTime.of(2021, 9, 15, 10, 00), LocalDateTime.of(2021, 9, 19, 10, 00));
 		
-		eventRepository.save(event1);
+		eventRepository.saveAll(Arrays.asList(event1, event2));
 		
-		Subscription sub1 = new Subscription(event1, user2, Instant.now(), 1, false);
+		Subscription sub1 = new Subscription(event1, user1, Instant.now(), 1, false);
 		
 		subscriptionRepository.save(sub1);
 	}

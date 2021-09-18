@@ -39,7 +39,7 @@ public class SubscriptionController {
 	}
 
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<SubscriptionDTO> findById(@PathVariable String id) {
+	public ResponseEntity<SubscriptionDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok(subscriptionMapper.toDTO(subscriptionService.findById(id)));
 	}
 
@@ -59,19 +59,19 @@ public class SubscriptionController {
 	}
 
 	@PatchMapping(path = "/confirm/{id}")
-	public ResponseEntity<SubscriptionDTO> confirmSubscription(@PathVariable String id) {
+	public ResponseEntity<SubscriptionDTO> confirmSubscription(@PathVariable Long id) {
 
 		return ResponseEntity.ok(subscriptionMapper.toDTO(subscriptionService.confirmSubscription(id)));
 	}
 
 	@PatchMapping(path = "/cancel/{id}")
-	public ResponseEntity<SubscriptionDTO> cancelSubscription(@PathVariable String id) {
+	public ResponseEntity<SubscriptionDTO> cancelSubscription(@PathVariable Long id) {
 
 		return ResponseEntity.ok(subscriptionMapper.toDTO(subscriptionService.cancelSubscription(id)));
 	}
 
 	@PatchMapping(path = "/checkin/{id}")
-	public ResponseEntity<SubscriptionDTO> checkIn(@PathVariable String id) {
+	public ResponseEntity<SubscriptionDTO> checkIn(@PathVariable Long id) {
 
 		return ResponseEntity.ok(subscriptionMapper.toDTO(subscriptionService.checkIn(id)));
 	}

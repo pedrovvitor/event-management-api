@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.pedrolima.eventmanager.entities.Subscription;
 
-public interface SubscriptionRepository extends JpaRepository<Subscription, String> {
+public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
-	Optional<Subscription> findOptionalByUserIdAndEventIdAndStatusIn(String userId, String eventId, Set<Integer> status);
+	Optional<Subscription> findOptionalByUserIdAndEventIdAndStatusIn(Long userId, Long eventId, Set<Integer> status);
 
 }

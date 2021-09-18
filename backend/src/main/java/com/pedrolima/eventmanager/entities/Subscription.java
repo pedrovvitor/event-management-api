@@ -7,11 +7,10 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
 
 import com.pedrolima.eventmanager.entities.enums.SubscriptionStatus;
 
@@ -21,16 +20,13 @@ public class Subscription implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
-	//@JsonIgnoreProperties("subscriptions")
 	private Event event;
 
 	@ManyToOne
-	//@JsonIgnoreProperties("subscriptions")
 	private User user;
 
 	private Instant moment;
@@ -51,7 +47,7 @@ public class Subscription implements Serializable {
 		this.isCheckedIn = isCheckedIn;
 	}
 
-	public Subscription(String id, Event event, User user, Instant moment,Integer status, boolean isCheckedIn) {
+	public Subscription(Long id, Event event, User user, Instant moment,Integer status, boolean isCheckedIn) {
 		this.id = id;
 		this.event = event;
 		this.user = user;
@@ -60,11 +56,11 @@ public class Subscription implements Serializable {
 		this.isCheckedIn = isCheckedIn;
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -40,7 +40,7 @@ public class SubscriptionService {
 		return subscriptionRepository.findAll(pageable);
 	}
 
-	public Subscription findById(String id) {
+	public Subscription findById(Long id) {
 		return subscriptionRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Subscription not found for id: " + id));
 	}
@@ -62,7 +62,7 @@ public class SubscriptionService {
 		return subscriptionRepository.save(subscription);
 	}
 
-	public Subscription cancelSubscription(String id) {
+	public Subscription cancelSubscription(Long id) {
 		Subscription sub = findById(id);
 		if (sub.isCheckedIn()) {
 			throw new BusinessException("Unable to cancel subscription! User already checked-in to the Event!");
@@ -76,7 +76,7 @@ public class SubscriptionService {
 		return subscriptionRepository.save(sub);
 	}
 
-	public Subscription checkIn(String id) {
+	public Subscription checkIn(Long id) {
 		Subscription sub = subscriptionRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Subscription not found for id: " + id));
 
@@ -102,14 +102,14 @@ public class SubscriptionService {
 
 	}
 
-	private void validateNewSubscription(String userId, String eventId) {
+	private void validateNewSubscription(Long userId, Long eventId) {
 		if (subscriptionRepository.findOptionalByUserIdAndEventIdAndStatusIn(userId, eventId, Set.of(SubscriptionStatus.CONFIRMED.getCod(), SubscriptionStatus.PENDING.getCod())).isPresent()) {
 			throw new BusinessException("User already subscribed at this Event");
 		}
 
 	}
 
-	public Subscription confirmSubscription(String id) {
+	public Subscription confirmSubscription(Long id) {
 		Subscription sub = findById(id);
 		if (sub.getStatus() != SubscriptionStatus.PENDING) {
 			throw new BusinessException("This subscription isn't a reservation");

@@ -41,12 +41,12 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> findById(@PathVariable String id) {
+	public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
 		return ResponseEntity.ok(userMapper.toDTO(userService.findById(id)));
 	}
 
-	@GetMapping(path = "/{id}/subscriptions")
-	public ResponseEntity<UserSubscriptionsDTO> findAllUserSubscriptions(@PathVariable String id) {
+	@GetMapping(path = "/subscriptions/{id}")
+	public ResponseEntity<UserSubscriptionsDTO> findAllUserSubscriptions(@PathVariable Long id) {
 		return ResponseEntity.ok(userService.findAllUserSubscriptions(id));
 	}
 

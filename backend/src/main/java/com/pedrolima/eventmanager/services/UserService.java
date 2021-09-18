@@ -33,7 +33,7 @@ public class UserService {
 		return userRepository.findAll(pageable);
 	}
 
-	public User findById(String id) {
+	public User findById(Long id) {
 		return  userRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("User not found for Id: " + id));
 	}
@@ -43,7 +43,7 @@ public class UserService {
 		return userRepository.save(user);
 	}
 
-	public UserSubscriptionsDTO findAllUserSubscriptions(String id) {
+	public UserSubscriptionsDTO findAllUserSubscriptions(Long id) {
 		User user = userRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("User not found for Id: " + id));
 		UserSubscriptionsDTO responseDto = new UserSubscriptionsDTO();

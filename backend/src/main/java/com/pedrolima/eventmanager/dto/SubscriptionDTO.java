@@ -9,11 +9,11 @@ import com.pedrolima.eventmanager.entities.enums.SubscriptionStatus;
 public class SubscriptionDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String id;
+	private Long id;
 
-	private String eventId;
+	private Long eventId;
 
-	private String userId;
+	private Long userId;
 
 	private Instant moment;
 
@@ -33,27 +33,27 @@ public class SubscriptionDTO implements Serializable {
 		isCheckedIn = obj.isCheckedIn();
 	}
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getEventId() {
+	public Long getEventId() {
 		return eventId;
 	}
 
-	public void setEventId(String eventId) {
+	public void setEventId(Long eventId) {
 		this.eventId = eventId;
 	}
 
-	public String getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
