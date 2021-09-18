@@ -11,12 +11,15 @@ import com.pedrolima.eventmanager.services.UserService;
 @Component
 public class SubscriptionMapper {
 
-	@Autowired
 	EventService eventService;
-
-	@Autowired
 	UserService userService;
 
+	@Autowired
+	public SubscriptionMapper(EventService eventService, UserService userService) {
+		super();
+		this.eventService = eventService;
+		this.userService = userService;
+	}
 
 	public Subscription toEntity(SubscriptionDTO dto) {
 

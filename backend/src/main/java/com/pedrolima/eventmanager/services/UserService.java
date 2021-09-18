@@ -16,17 +16,19 @@ import com.pedrolima.eventmanager.repositories.UserRepository;
 @Service
 public class UserService {
 
-	@Autowired
 	UserRepository userRepository;
-
-	@Autowired
 	SubscriptionRepository subscriptionRepository;
-
-	@Autowired
 	UserMapper userMapper;
-
-	@Autowired
 	UserSubscriptionMapper userSubscriptionMapper;
+	
+	@Autowired
+	public UserService(UserRepository userRepository, SubscriptionRepository subscriptionRepository,
+			UserMapper userMapper, UserSubscriptionMapper userSubscriptionMapper) {
+		this.userRepository = userRepository;
+		this.subscriptionRepository = subscriptionRepository;
+		this.userMapper = userMapper;
+		this.userSubscriptionMapper = userSubscriptionMapper;
+	}
 
 	public Page<User> findAll(Pageable pageable) {
 

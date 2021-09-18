@@ -9,13 +9,16 @@ import org.springframework.stereotype.Component;
 import com.pedrolima.eventmanager.dto.EventSubscriptionDTO;
 import com.pedrolima.eventmanager.entities.Subscription;
 
-
 @Component
 public class EventSubscriptionMapper {
 
-	@Autowired
 	UserMapper userMapper;
-	
+
+	@Autowired
+	public EventSubscriptionMapper(UserMapper userMapper) {
+		this.userMapper = userMapper;
+	}
+
 	public EventSubscriptionDTO toDto(Subscription subscription) {
 		EventSubscriptionDTO eventSubDto = new EventSubscriptionDTO();
 		eventSubDto.setSubscriptionId(subscription.getId());
@@ -25,10 +28,10 @@ public class EventSubscriptionMapper {
 		eventSubDto.setUser(userMapper.toDTO(subscription.getUser()));
 		return eventSubDto;
 	}
-	
+
 	public Set<EventSubscriptionDTO> toDto(Set<Subscription> subscriptions) {
-        return subscriptions.stream().map(subscription -> {
-            return toDto(subscription);
-        }).collect(Collectors.toSet());
+		return subscriptions.stream().map(subscription -> {
+			return toDto(subscription);
+		}).collect(Collectors.toSet());
 	}
 }

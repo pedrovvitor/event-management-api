@@ -51,10 +51,10 @@ public class UserController {
 	}
 
 	@PostMapping
-	public ResponseEntity<User> insert(@RequestBody UserDTO userDto) {
+	public ResponseEntity<UserDTO> insert(@RequestBody UserDTO userDto) {
 		User user = userService.insert(userMapper.toEntity(userDto));
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
-		return ResponseEntity.created(uri).body(user);
+		return ResponseEntity.created(uri).body(userMapper.toDTO(user));
 	}
 
 }

@@ -32,6 +32,21 @@ O usuário só poderá entrar no evento no período de uma hora antes do início do e
 
 Não permitir o cancelamento de uma inscrição após o usuário ter realizado a entrada no evento.
 
+Implementar operação de criação de reservas e conversão de reservas em inscrições.
+
+### Regras adicionais
+
+Após o cancelamento de uma inscrição, o usuário poderá inscrever-se novamente no evento, caso as inscrições estiverem abertas.
+
+O usuário não poderá inscrever-se mais de uma vez no evento, exceto se sua inscrição prévia estiver cancelada.
+
+O cancelamento de uma inscrição abre 1 vaga referente a inscrição cancelada
+
+Exceções tratadas de forma personalizada
+
+Não é permitido o check-in em uma inscrição cancelada
+
+Padrão DTO implementado
 
 ### Endpoints dos requisitos do desafio
 

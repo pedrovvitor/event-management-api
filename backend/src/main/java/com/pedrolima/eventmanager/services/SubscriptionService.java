@@ -65,7 +65,7 @@ public class SubscriptionService {
 	public Subscription cancelSubscription(Long id) {
 		Subscription sub = findById(id);
 		if (sub.isCheckedIn()) {
-			throw new BusinessException("Unable to cancel subscription! User already checked-in to the Event!");
+			throw new BusinessException("Unable to cancel subscription! User has already checked in to the Event!");
 		}
 		if (sub.getStatus() == SubscriptionStatus.CANCELED) {
 			throw new BusinessException("Subscription already canceled");
@@ -87,7 +87,7 @@ public class SubscriptionService {
 			throw new BusinessException("Subscription not confirmed");
 		}
 		if (sub.isCheckedIn()) {
-			throw new BusinessException("Subscription already checked in!");
+			throw new BusinessException("Subscription has already checked in!");
 		}
 
 		sub.setCheckedIn(true);
@@ -104,7 +104,7 @@ public class SubscriptionService {
 
 	private void validateNewSubscription(Long userId, Long eventId) {
 		if (subscriptionRepository.findOptionalByUserIdAndEventIdAndStatusIn(userId, eventId, Set.of(SubscriptionStatus.CONFIRMED.getCod(), SubscriptionStatus.PENDING.getCod())).isPresent()) {
-			throw new BusinessException("User already subscribed at this Event");
+			throw new BusinessException("User already subscribed to this Event");
 		}
 
 	}

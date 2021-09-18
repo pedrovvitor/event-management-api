@@ -67,7 +67,7 @@ public class EventService {
 
 	public void checkBeginDateTime(Event event) {
 		if (Instant.now().isAfter(event.getBeginDateTime().toInstant(ZoneOffset.UTC))) {
-			throw new BusinessException("Event already started!");
+			throw new BusinessException("Registration Closed!");
 		}
 
 	}
