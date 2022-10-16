@@ -1,11 +1,5 @@
 package com.pedrolima.eventmanager.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.pedrolima.eventmanager.dto.UserSubscriptionsDTO;
 import com.pedrolima.eventmanager.entities.User;
 import com.pedrolima.eventmanager.exceptions.ResourceNotFoundException;
@@ -13,23 +7,20 @@ import com.pedrolima.eventmanager.mapper.UserMapper;
 import com.pedrolima.eventmanager.mapper.UserSubscriptionMapper;
 import com.pedrolima.eventmanager.repositories.SubscriptionRepository;
 import com.pedrolima.eventmanager.repositories.UserRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
 	UserRepository userRepository;
 	SubscriptionRepository subscriptionRepository;
 	UserMapper userMapper;
 	UserSubscriptionMapper userSubscriptionMapper;
-	
-	@Autowired
-	public UserService(UserRepository userRepository, SubscriptionRepository subscriptionRepository,
-			UserMapper userMapper, UserSubscriptionMapper userSubscriptionMapper) {
-		this.userRepository = userRepository;
-		this.subscriptionRepository = subscriptionRepository;
-		this.userMapper = userMapper;
-		this.userSubscriptionMapper = userSubscriptionMapper;
-	}
 
 	@Transactional(readOnly = true)
 	public Page<User> findAll(Pageable pageable) {
@@ -52,9 +43,8 @@ public class UserService {
 				.orElseThrow(() -> new ResourceNotFoundException("User not found for Id: " + id));
 		UserSubscriptionsDTO responseDto = new UserSubscriptionsDTO();
 		responseDto.setId(user.getId());
-		responseDto.setName(user.getName());
+		responseDto.setName(user.getFirstName());
 		responseDto.setSubscriptions(userSubscriptionMapper.toDto(user.getSubscriptions()));
 		return responseDto;
 	}
-
 }

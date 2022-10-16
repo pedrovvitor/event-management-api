@@ -1,46 +1,19 @@
 package com.pedrolima.eventmanager.dto;
 
+import java.io.Serializable;
 import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class EventSubscriptionsDTO {
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class EventSubscriptionsDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String name;
 	private Set<EventSubscriptionDTO> subscriptions;
-
-	public EventSubscriptionsDTO() {
-		super();
-	}
-
-	public EventSubscriptionsDTO(Long id, String name, Set<EventSubscriptionDTO> subscriptions) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.subscriptions = subscriptions;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Set<EventSubscriptionDTO> getSubscriptions() {
-		return subscriptions;
-	}
-
-	public void setSubscriptions(Set<EventSubscriptionDTO> subscriptions) {
-		this.subscriptions = subscriptions;
-	}
-
 }

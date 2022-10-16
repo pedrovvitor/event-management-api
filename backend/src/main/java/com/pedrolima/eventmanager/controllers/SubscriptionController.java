@@ -1,8 +1,11 @@
 package com.pedrolima.eventmanager.controllers;
 
+import com.pedrolima.eventmanager.dto.SubscriptionDTO;
+import com.pedrolima.eventmanager.entities.enums.SubscriptionStatus;
+import com.pedrolima.eventmanager.mapper.SubscriptionMapper;
+import com.pedrolima.eventmanager.services.SubscriptionService;
 import java.net.URI;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -15,23 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.pedrolima.eventmanager.dto.SubscriptionDTO;
-import com.pedrolima.eventmanager.entities.enums.SubscriptionStatus;
-import com.pedrolima.eventmanager.mapper.SubscriptionMapper;
-import com.pedrolima.eventmanager.services.SubscriptionService;
-
 @RestController
 @RequestMapping(path = "/subscriptions")
+@AllArgsConstructor
 public class SubscriptionController {
 
 	SubscriptionService subscriptionService;
 	SubscriptionMapper subscriptionMapper;
-
-	@Autowired
-	public SubscriptionController(SubscriptionService subscriptionService, SubscriptionMapper subscriptionMapper) {
-		this.subscriptionService = subscriptionService;
-		this.subscriptionMapper = subscriptionMapper;
-	}
 
 	@GetMapping
 	public ResponseEntity<Page<SubscriptionDTO>> findAll(Pageable pageable) {

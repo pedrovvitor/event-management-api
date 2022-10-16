@@ -1,8 +1,12 @@
 package com.pedrolima.eventmanager.controllers;
 
+import com.pedrolima.eventmanager.dto.EventDTO;
+import com.pedrolima.eventmanager.dto.EventSubscriptionsDTO;
+import com.pedrolima.eventmanager.entities.Event;
+import com.pedrolima.eventmanager.mapper.EventMapper;
+import com.pedrolima.eventmanager.services.EventService;
 import java.net.URI;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -14,24 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.pedrolima.eventmanager.dto.EventDTO;
-import com.pedrolima.eventmanager.dto.EventSubscriptionsDTO;
-import com.pedrolima.eventmanager.entities.Event;
-import com.pedrolima.eventmanager.mapper.EventMapper;
-import com.pedrolima.eventmanager.services.EventService;
-
 @RestController
+@AllArgsConstructor
 @RequestMapping(path = "events")
 public class EventController {
-
 	EventService eventService;
 	EventMapper eventMapper;
-
-	@Autowired
-	public EventController(EventService eventService, EventMapper eventMapper) {
-		this.eventService = eventService;
-		this.eventMapper = eventMapper;
-	}
 
 	@GetMapping
 	public ResponseEntity<Page<EventDTO>> findAll(Pageable pageable) {

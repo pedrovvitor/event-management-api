@@ -1,25 +1,19 @@
 package com.pedrolima.eventmanager.mapper;
 
+import com.pedrolima.eventmanager.dto.SubscriptionDTO;
+import com.pedrolima.eventmanager.entities.Subscription;
+import com.pedrolima.eventmanager.entities.enums.SubscriptionStatus;
+import com.pedrolima.eventmanager.services.EventService;
+import com.pedrolima.eventmanager.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.pedrolima.eventmanager.dto.SubscriptionDTO;
-import com.pedrolima.eventmanager.entities.Subscription;
-import com.pedrolima.eventmanager.services.EventService;
-import com.pedrolima.eventmanager.services.UserService;
-
 @Component
+@AllArgsConstructor
 public class SubscriptionMapper {
-
 	EventService eventService;
 	UserService userService;
-
-	@Autowired
-	public SubscriptionMapper(EventService eventService, UserService userService) {
-		super();
-		this.eventService = eventService;
-		this.userService = userService;
-	}
 
 	public Subscription toEntity(SubscriptionDTO dto) {
 
@@ -29,7 +23,7 @@ public class SubscriptionMapper {
 		entity.setEvent(eventService.findById(dto.getEventId()));
 		entity.setMoment(dto.getMoment());
 		entity.setCheckedIn(dto.isCheckedIn());
-		entity.setStatus(dto.getStatus());
+		entity.setStatus(SubscriptionStatus.toEnum(dto.getStatus()));
 
 		return entity;
 	}
@@ -42,7 +36,7 @@ public class SubscriptionMapper {
 		dto.setUserId(model.getUser().getId());
 		dto.setMoment(model.getMoment());
 		dto.setCheckedIn(model.isCheckedIn());
-		dto.setStatus(model.getStatus());
+		dto.setStatus(model.getStatus().getCod());
 
 		return dto;
 	}

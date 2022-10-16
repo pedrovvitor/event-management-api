@@ -1,71 +1,24 @@
 package com.pedrolima.eventmanager.dto;
 
-import java.time.Instant;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pedrolima.eventmanager.entities.enums.SubscriptionStatus;
+import java.io.Serializable;
+import java.time.Instant;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class EventSubscriptionDTO {
-
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class EventSubscriptionDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private Long subscriptionId;
 	private Instant moment;
 	private SubscriptionStatus status;
 	private boolean isCheckedIn;
 	@JsonIgnoreProperties("subscriptions")
 	private UserDTO user;
-
-	public EventSubscriptionDTO() {
-		super();
-	}
-
-	public EventSubscriptionDTO(Long subscriptionId, Instant moment, SubscriptionStatus status, boolean isCheckedIn,
-			UserDTO user) {
-		super();
-		this.subscriptionId = subscriptionId;
-		this.moment = moment;
-		this.status = status;
-		this.isCheckedIn = isCheckedIn;
-		this.user = user;
-	}
-
-	public Long getSubscriptionId() {
-		return subscriptionId;
-	}
-
-	public void setSubscriptionId(Long subscriptionId) {
-		this.subscriptionId = subscriptionId;
-	}
-
-	public Instant getMoment() {
-		return moment;
-	}
-
-	public void setMoment(Instant moment) {
-		this.moment = moment;
-	}
-
-	public SubscriptionStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(SubscriptionStatus subscriptionStatus) {
-		this.status = subscriptionStatus;
-	}
-
-	public boolean isCheckedIn() {
-		return isCheckedIn;
-	}
-
-	public void setCheckedIn(boolean isCheckedIn) {
-		this.isCheckedIn = isCheckedIn;
-	}
-
-	public UserDTO getUser() {
-		return user;
-	}
-
-	public void setUser(UserDTO user) {
-		this.user = user;
-	}
-
 }

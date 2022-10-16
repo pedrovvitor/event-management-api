@@ -1,15 +1,13 @@
 package com.pedrolima.eventmanager.mapper;
 
-import org.springframework.stereotype.Component;
-
 import com.pedrolima.eventmanager.dto.EventDTO;
 import com.pedrolima.eventmanager.entities.Event;
+import org.springframework.stereotype.Component;
 
 @Component
 public class EventMapper {
 	
 	public Event toEntity(EventDTO dto) {
-
 		Event entity = new Event();
 		entity.setId(dto.getId());
 		entity.setName(dto.getName());
@@ -21,13 +19,12 @@ public class EventMapper {
 
 	public EventDTO toDTO(Event entity) {
 
-		EventDTO dto = new EventDTO();
-		dto.setId(entity.getId());
-		dto.setName(entity.getName());
-		dto.setBeginDateAndTime(entity.getBeginDateTime());
-		dto.setEndDateAndTime(entity.getEndDateTime());
-		dto.setVacancies(entity.getVacancies());
-		return dto;
+		return EventDTO.builder()
+				.id(entity.getId())
+				.name(entity.getName())
+				.beginDateAndTime(entity.getBeginDateTime())
+				.endDateAndTime(entity.getEndDateTime())
+				.vacancies(entity.getVacancies()).
+				build();
 	}
-
 }

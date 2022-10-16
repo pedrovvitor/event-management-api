@@ -1,37 +1,28 @@
 package com.pedrolima.eventmanager.mapper;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.pedrolima.eventmanager.dto.EventSubscriptionDTO;
 import com.pedrolima.eventmanager.entities.Subscription;
+import java.util.Set;
+import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class EventSubscriptionMapper {
 
 	UserMapper userMapper;
 
-	@Autowired
-	public EventSubscriptionMapper(UserMapper userMapper) {
-		this.userMapper = userMapper;
-	}
-
 	public EventSubscriptionDTO toDto(Subscription subscription) {
-		EventSubscriptionDTO eventSubDto = new EventSubscriptionDTO();
-		eventSubDto.setSubscriptionId(subscription.getId());
-		eventSubDto.setCheckedIn(subscription.isCheckedIn());
-		eventSubDto.setMoment(subscription.getMoment());
-		eventSubDto.setStatus(subscription.getStatus());
-		eventSubDto.setUser(userMapper.toDTO(subscription.getUser()));
-		return eventSubDto;
+		return EventSubscriptionDTO.builder().subscriptionId(subscription.getId())
+				.isCheckedIn(subscription.isCheckedIn())
+				.moment(subscription.getMoment())
+				.status(subscription.getStatus())
+				.user(userMapper.toDTO(subscription.getUser()))
+				.build();
 	}
 
 	public Set<EventSubscriptionDTO> toDto(Set<Subscription> subscriptions) {
-		return subscriptions.stream().map(subscription -> {
-			return toDto(subscription);
-		}).collect(Collectors.toSet());
+		return subscriptions.stream().map(this::toDto).collect(Collectors.toSet());
 	}
 }

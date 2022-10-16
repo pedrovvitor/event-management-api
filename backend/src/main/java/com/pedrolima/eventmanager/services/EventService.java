@@ -1,14 +1,5 @@
 package com.pedrolima.eventmanager.services;
 
-import java.time.Instant;
-import java.time.ZoneOffset;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.pedrolima.eventmanager.dto.EventDTO;
 import com.pedrolima.eventmanager.dto.EventSubscriptionsDTO;
 import com.pedrolima.eventmanager.entities.Event;
@@ -17,22 +8,21 @@ import com.pedrolima.eventmanager.exceptions.ResourceNotFoundException;
 import com.pedrolima.eventmanager.mapper.EventMapper;
 import com.pedrolima.eventmanager.mapper.EventSubscriptionMapper;
 import com.pedrolima.eventmanager.repositories.EventRepository;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@AllArgsConstructor
 public class EventService {
 
 	EventRepository eventRepository;
 	EventMapper eventMapper;
 	EventSubscriptionMapper eventSubscriptionMapper;
-
-	@Autowired
-	public EventService(EventRepository eventRepository, EventMapper eventMapper,
-			EventSubscriptionMapper eventSubscriptionMapper) {
-		super();
-		this.eventRepository = eventRepository;
-		this.eventMapper = eventMapper;
-		this.eventSubscriptionMapper = eventSubscriptionMapper;
-	}
 
 	@Transactional(readOnly = true)
 	public Page<Event> findAll(Pageable pageable) {
@@ -62,16 +52,14 @@ public class EventService {
 	public void decreaseVacancies(Event event) {
 		if (event.getVacancies() > 0) {
 			event.setVacancies(event.getVacancies() - 1);
-		} else {
-			throw new BusinessException("Event is full!");
+			return;
 		}
+			throw new BusinessException("Event is full.");
 	}
 
 	public void checkBeginDateTime(Event event) {
 		if (Instant.now().isAfter(event.getBeginDateTime().toInstant(ZoneOffset.UTC))) {
-			throw new BusinessException("Registration Closed!");
+			throw new BusinessException("Registration Closed.");
 		}
-
 	}
-
 }
