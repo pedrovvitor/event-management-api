@@ -1,5 +1,6 @@
 package com.pedrolima.eventmanager.services;
 
+import com.pedrolima.eventmanager.dto.UserDTO;
 import com.pedrolima.eventmanager.dto.UserSubscriptionsDTO;
 import com.pedrolima.eventmanager.entities.User;
 import com.pedrolima.eventmanager.exceptions.ResourceNotFoundException;
@@ -23,9 +24,8 @@ public class UserService {
 	UserSubscriptionMapper userSubscriptionMapper;
 
 	@Transactional(readOnly = true)
-	public Page<User> findAll(Pageable pageable) {
-
-		return userRepository.findAll(pageable);
+	public Page<UserDTO> findAll(Pageable pageable) {
+		return userRepository.findAll(pageable).map(userMapper::toDTO);
 	}
 
 	public User findById(Long id) {
@@ -34,7 +34,6 @@ public class UserService {
 	}
 
 	public User insert(User user) {
-		
 		return userRepository.save(user);
 	}
 
@@ -45,6 +44,7 @@ public class UserService {
 		responseDto.setId(user.getId());
 		responseDto.setName(user.getFirstName());
 		responseDto.setSubscriptions(userSubscriptionMapper.toDto(user.getSubscriptions()));
+
 		return responseDto;
 	}
 }

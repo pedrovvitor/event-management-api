@@ -29,7 +29,7 @@ public class UserController {
 	@GetMapping
 	public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
 
-		return ResponseEntity.ok(userService.findAll(pageable).map(userMapper::toDTO));
+		return ResponseEntity.ok(userService.findAll(pageable));
 	}
 
 	@GetMapping(value = "/{id}")
