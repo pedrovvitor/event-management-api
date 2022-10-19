@@ -19,26 +19,27 @@ import lombok.Data;
 @Data
 @Table(name = "tb_events")
 public class Event implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	@Column(nullable = false)
-	private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column(nullable = false)
-	private Integer vacancies;
+  @Column(nullable = false)
+  private String name;
 
-	@Column(nullable = false)
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-	private LocalDateTime beginDateTime;
+  @Column(nullable = false)
+  private Integer vacancies;
 
-	@Column(nullable = false)
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-	private LocalDateTime endDateTime;
+  @Column(nullable = false)
+  @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+  private LocalDateTime beginDateTime;
 
-	@OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
-	private Set<Subscription> subscriptions = new HashSet<>();
+  @Column(nullable = false)
+  @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+  private LocalDateTime endDateTime;
+
+  @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
+  private Set<Subscription> subscriptions = new HashSet<>();
 }

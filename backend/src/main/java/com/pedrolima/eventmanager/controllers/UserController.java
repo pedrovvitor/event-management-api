@@ -23,29 +23,31 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @AllArgsConstructor
 public class UserController {
 
-	final UserService userService;
-	final UserMapper userMapper;
+  final UserService userService;
+  final UserMapper userMapper;
 
-	@GetMapping
-	public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
+  @GetMapping
+  public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
 
-		return ResponseEntity.ok(userService.findAll(pageable));
-	}
+    return ResponseEntity.ok(userService.findAll(pageable));
+  }
 
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
-		return ResponseEntity.ok(userMapper.toDTO(userService.findById(id)));
-	}
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+    return ResponseEntity.ok(userMapper.toDTO(userService.findById(id)));
+  }
 
-	@GetMapping(path = "/subscriptions/{id}")
-	public ResponseEntity<UserSubscriptionsDTO> findAllUserSubscriptions(@PathVariable Long id) {
-		return ResponseEntity.ok(userService.findAllUserSubscriptions(id));
-	}
+  @GetMapping(path = "/{id}/subscriptions")
+  public ResponseEntity<UserSubscriptionsDTO> findAllUserSubscriptions(Pageable pageable,
+      @PathVariable Long id) {
+    return ResponseEntity.ok(userService.findAllUserSubscriptions(pageable, id));
+  }
 
-	@PostMapping
-	public ResponseEntity<UserDTO> insert(@RequestBody UserDTO userDto) {
-		User user = userService.insert(userMapper.toEntity(userDto));
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
-		return ResponseEntity.created(uri).body(userMapper.toDTO(user));
-	}
+  @PostMapping
+  public ResponseEntity<UserDTO> insert(@RequestBody UserDTO userDto) {
+    User user = userService.insert(userMapper.toEntity(userDto));
+    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+        .buildAndExpand(user.getId()).toUri();
+    return ResponseEntity.created(uri).body(userMapper.toDTO(user));
+  }
 }

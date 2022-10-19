@@ -16,13 +16,13 @@ import lombok.Data;
 @Table(name = "tb_users")
 public class User {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column(nullable = false)
-	private String firstName;
+  @Column(nullable = false)
+  private String firstName;
 
-	@OneToMany(mappedBy = "user")
-	private Set<Subscription> subscriptions = new HashSet<>();
+  @OneToMany(mappedBy = "user")
+  private Set<Subscription> subscriptions = new HashSet<>();
 }

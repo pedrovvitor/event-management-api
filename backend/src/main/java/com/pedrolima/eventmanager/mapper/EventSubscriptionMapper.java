@@ -11,18 +11,18 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class EventSubscriptionMapper {
 
-	UserMapper userMapper;
+  UserMapper userMapper;
 
-	public EventSubscriptionDTO toDto(Subscription subscription) {
-		return EventSubscriptionDTO.builder().subscriptionId(subscription.getId())
-				.isCheckedIn(subscription.isCheckedIn())
-				.moment(subscription.getMoment())
-				.status(subscription.getStatus())
-				.user(userMapper.toDTO(subscription.getUser()))
-				.build();
-	}
+  public EventSubscriptionDTO toDto(Subscription subscription) {
+    return EventSubscriptionDTO.builder().subscriptionId(subscription.getId())
+        .isCheckedIn(subscription.isCheckedIn())
+        .moment(subscription.getMoment())
+        .status(subscription.getStatus())
+        .user(userMapper.toDTO(subscription.getUser()))
+        .build();
+  }
 
-	public Set<EventSubscriptionDTO> toDto(Set<Subscription> subscriptions) {
-		return subscriptions.stream().map(this::toDto).collect(Collectors.toSet());
-	}
+  public Set<EventSubscriptionDTO> toDto(Set<Subscription> subscriptions) {
+    return subscriptions.stream().map(this::toDto).collect(Collectors.toSet());
+  }
 }

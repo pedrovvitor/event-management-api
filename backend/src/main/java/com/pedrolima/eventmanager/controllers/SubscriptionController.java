@@ -23,49 +23,53 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @AllArgsConstructor
 public class SubscriptionController {
 
-	SubscriptionService subscriptionService;
-	SubscriptionMapper subscriptionMapper;
+  SubscriptionService subscriptionService;
+  SubscriptionMapper subscriptionMapper;
 
-	@GetMapping
-	public ResponseEntity<Page<SubscriptionDTO>> findAll(Pageable pageable) {
-		return ResponseEntity.ok(subscriptionService.findAll(pageable).map(sub -> subscriptionMapper.toDTO(sub)));
-	}
+  @GetMapping
+  public ResponseEntity<Page<SubscriptionDTO>> findAll(Pageable pageable) {
+    return ResponseEntity.ok(
+        subscriptionService.findAll(pageable).map(sub -> subscriptionMapper.toDTO(sub)));
+  }
 
-	@GetMapping(path = "/{id}")
-	public ResponseEntity<SubscriptionDTO> findById(@PathVariable Long id) {
-		return ResponseEntity.ok(subscriptionMapper.toDTO(subscriptionService.findById(id)));
-	}
+  @GetMapping(path = "/{id}")
+  public ResponseEntity<SubscriptionDTO> findById(@PathVariable Long id) {
+    return ResponseEntity.ok(subscriptionMapper.toDTO(subscriptionService.findById(id)));
+  }
 
-	@PostMapping
-	public ResponseEntity<SubscriptionDTO> insert(@RequestBody SubscriptionDTO objDTO) {
-		SubscriptionDTO sub = subscriptionMapper
-				.toDTO(subscriptionService.insert(objDTO, SubscriptionStatus.CONFIRMED));
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(sub.getId()).toUri();
-		return ResponseEntity.created(uri).body(sub);
-	}
+  @PostMapping
+  public ResponseEntity<SubscriptionDTO> insert(@RequestBody SubscriptionDTO objDTO) {
+    SubscriptionDTO sub = subscriptionMapper
+        .toDTO(subscriptionService.insert(objDTO, SubscriptionStatus.CONFIRMED));
+    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+        .buildAndExpand(sub.getId()).toUri();
+    return ResponseEntity.created(uri).body(sub);
+  }
 
-	@PostMapping(path = "/reservation")
-	public ResponseEntity<SubscriptionDTO> reservation(@RequestBody SubscriptionDTO objDTO) {
-		SubscriptionDTO sub = subscriptionMapper.toDTO(subscriptionService.insert(objDTO, SubscriptionStatus.PENDING));
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(sub.getId()).toUri();
-		return ResponseEntity.created(uri).body(sub);
-	}
+  @PostMapping(path = "/reservation")
+  public ResponseEntity<SubscriptionDTO> reservation(@RequestBody SubscriptionDTO objDTO) {
+    SubscriptionDTO sub = subscriptionMapper.toDTO(
+        subscriptionService.insert(objDTO, SubscriptionStatus.PENDING));
+    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+        .buildAndExpand(sub.getId()).toUri();
+    return ResponseEntity.created(uri).body(sub);
+  }
 
-	@PatchMapping(path = "/confirm/{id}")
-	public ResponseEntity<SubscriptionDTO> confirmSubscription(@PathVariable Long id) {
+  @PatchMapping(path = "/confirm/{id}")
+  public ResponseEntity<SubscriptionDTO> confirmSubscription(@PathVariable Long id) {
 
-		return ResponseEntity.ok(subscriptionMapper.toDTO(subscriptionService.confirmSubscription(id)));
-	}
+    return ResponseEntity.ok(subscriptionMapper.toDTO(subscriptionService.confirmSubscription(id)));
+  }
 
-	@PatchMapping(path = "/cancel/{id}")
-	public ResponseEntity<SubscriptionDTO> cancelSubscription(@PathVariable Long id) {
+  @PatchMapping(path = "/cancel/{id}")
+  public ResponseEntity<SubscriptionDTO> cancelSubscription(@PathVariable Long id) {
 
-		return ResponseEntity.ok(subscriptionMapper.toDTO(subscriptionService.cancelSubscription(id)));
-	}
+    return ResponseEntity.ok(subscriptionMapper.toDTO(subscriptionService.cancelSubscription(id)));
+  }
 
-	@PatchMapping(path = "/checkin/{id}")
-	public ResponseEntity<SubscriptionDTO> checkIn(@PathVariable Long id) {
+  @PatchMapping(path = "/checkin/{id}")
+  public ResponseEntity<SubscriptionDTO> checkIn(@PathVariable Long id) {
 
-		return ResponseEntity.ok(subscriptionMapper.toDTO(subscriptionService.checkIn(id)));
-	}
+    return ResponseEntity.ok(subscriptionMapper.toDTO(subscriptionService.checkIn(id)));
+  }
 }

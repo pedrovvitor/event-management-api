@@ -12,11 +12,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class EventDTO {
-	private Long id;
-	private String name;
-	private Integer vacancies;
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-	private LocalDateTime beginDateAndTime;
-	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
-	private LocalDateTime endDateAndTime;
+
+  private Long id;
+  private String name;
+  private Integer vacancies;
+  @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+  private LocalDateTime beginDateAndTime;
+  @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+  private LocalDateTime endDateAndTime;
 }

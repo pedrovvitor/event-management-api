@@ -14,11 +14,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class UserSubscriptionDTO implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private Long subscriptionId;
-	private Instant moment;
-	private SubscriptionStatus status;
-	private boolean isCheckedIn;
-	@JsonIgnoreProperties("subscriptions")
-	private EventDTO event;
+
+  private static final long serialVersionUID = 1L;
+  private Long subscriptionId;
+  private Instant moment;
+  private SubscriptionStatus status;
+  private boolean isCheckedIn;
+  @JsonIgnoreProperties("subscriptions")
+  private EventDTO event;
 }

@@ -16,29 +16,30 @@ import lombok.Data;
 @Data
 @Table(name = "tb_subscriptions")
 public class Subscription implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
-	private Event event;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@ManyToOne
-	private User user;
+  @ManyToOne(cascade = CascadeType.MERGE)
+  private Event event;
 
-	private Instant moment;
+  @ManyToOne
+  private User user;
 
-	private Integer status;
+  private Instant moment;
 
-	private boolean isCheckedIn;
+  private Integer status;
 
-	public void setStatus(SubscriptionStatus status) {
-		this.status = status.getCod();
-	}
+  private boolean isCheckedIn;
 
-	public SubscriptionStatus getStatus() {
-		return SubscriptionStatus.toEnum(status);
-	}
+  public SubscriptionStatus getStatus() {
+    return SubscriptionStatus.toEnum(status);
+  }
+
+  public void setStatus(SubscriptionStatus status) {
+    this.status = status.getCod();
+  }
 }

@@ -20,46 +20,46 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class EventService {
 
-	EventRepository eventRepository;
-	EventMapper eventMapper;
-	EventSubscriptionMapper eventSubscriptionMapper;
+  EventRepository eventRepository;
+  EventMapper eventMapper;
+  EventSubscriptionMapper eventSubscriptionMapper;
 
-	@Transactional(readOnly = true)
-	public Page<Event> findAll(Pageable pageable) {
-		return eventRepository.findAll(pageable);
-	}
+  @Transactional(readOnly = true)
+  public Page<Event> findAll(Pageable pageable) {
+    return eventRepository.findAll(pageable);
+  }
 
-	public Event findById(Long id) {
-		return eventRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Event not found for id: " + id));
-	}
+  public Event findById(Long id) {
+    return eventRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Event not found for id: " + id));
+  }
 
-	public Event insert(EventDTO eventDto) {
-		Event event = eventMapper.toEntity(eventDto);
-		return eventRepository.save(event);
-	}
+  public Event insert(EventDTO eventDto) {
+    Event event = eventMapper.toEntity(eventDto);
+    return eventRepository.save(event);
+  }
 
-	public EventSubscriptionsDTO findAllEventSubscriptions(Long id) {
-		Event event = eventRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Event not found for Id: " + id));
-		EventSubscriptionsDTO responseDto = new EventSubscriptionsDTO();
-		responseDto.setId(event.getId());
-		responseDto.setName(event.getName());
-		responseDto.setSubscriptions(eventSubscriptionMapper.toDto(event.getSubscriptions()));
-		return responseDto;
-	}
+  public EventSubscriptionsDTO findAllEventSubscriptions(Long id) {
+    Event event = eventRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("Event not found for Id: " + id));
+    EventSubscriptionsDTO responseDto = new EventSubscriptionsDTO();
+    responseDto.setId(event.getId());
+    responseDto.setName(event.getName());
+    responseDto.setSubscriptions(eventSubscriptionMapper.toDto(event.getSubscriptions()));
+    return responseDto;
+  }
 
-	public void decreaseVacancies(Event event) {
-		if (event.getVacancies() > 0) {
-			event.setVacancies(event.getVacancies() - 1);
-			return;
-		}
-			throw new BusinessException("Event is full.");
-	}
+  public void decreaseVacancies(Event event) {
+    if (event.getVacancies() > 0) {
+      event.setVacancies(event.getVacancies() - 1);
+      return;
+    }
+    throw new BusinessException("Event is full.");
+  }
 
-	public void checkBeginDateTime(Event event) {
-		if (Instant.now().isAfter(event.getBeginDateTime().toInstant(ZoneOffset.UTC))) {
-			throw new BusinessException("Registration Closed.");
-		}
-	}
+  public void checkBeginDateTime(Event event) {
+    if (Instant.now().isAfter(event.getBeginDateTime().toInstant(ZoneOffset.UTC))) {
+      throw new BusinessException("Registration Closed.");
+    }
+  }
 }

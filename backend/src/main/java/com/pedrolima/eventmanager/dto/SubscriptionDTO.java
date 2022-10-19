@@ -12,17 +12,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class SubscriptionDTO implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	private Long eventId;
+  private Long id;
 
-	private Long userId;
+  private Long eventId;
 
-	private Instant moment;
+  private Long userId;
 
-	private Integer status;
+  private Instant moment;
 
-	private boolean isCheckedIn;
+  private Integer status;
+
+  private boolean isCheckedIn;
 }

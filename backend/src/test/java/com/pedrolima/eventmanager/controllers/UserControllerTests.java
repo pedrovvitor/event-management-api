@@ -35,10 +35,37 @@ public class UserControllerTests {
   @Test
   public void findByIdShouldReturnUserWhenIdExists() throws Exception {
     long existentId = 1L;
-    mockMvc.perform(get("/users/{id}",existentId)
+    mockMvc.perform(get(USER_PATH.concat("/{id}"),existentId)
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id").exists())
         .andExpect(jsonPath("$.name").exists());
+  }
+
+  @Test
+  public void findByIdShouldReturnNotFoundWhenIdDoesNotExists() throws Exception {
+    long inexistentId = -1L;
+    mockMvc.perform(get(USER_PATH.concat("/{id}"), inexistentId)
+        .accept(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
+  }
+
+  @Test
+  public void findAllUserSubscriptionsShouldReturnPageWhenIdExists() throws Exception {
+    long existentId = 1L;
+    mockMvc.perform(get(USER_PATH.concat("/{id}/subscriptions"),existentId)
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.subscriptions").exists())
+        .andExpect(jsonPath("$.subscriptions.content").exists());
+  }
+
+  @Test
+  public void findAllUserSubscriptionsShouldReturnNoFoundWhenIdDoesNotExists() throws Exception {
+    long nonExistentId = -1L;
+    mockMvc.perform(get(USER_PATH.concat("/{id}/subscriptions"),nonExistentId)
+            .accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$.message").exists())
+        .andExpect(jsonPath("$.message").value("User not found for Id: " + nonExistentId));
   }
 }

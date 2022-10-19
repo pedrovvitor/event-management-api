@@ -22,29 +22,31 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @AllArgsConstructor
 @RequestMapping(path = "events")
 public class EventController {
-	EventService eventService;
-	EventMapper eventMapper;
 
-	@GetMapping
-	public ResponseEntity<Page<EventDTO>> findAll(Pageable pageable) {
-		Page<EventDTO> result = eventService.findAll(pageable).map(event -> eventMapper.toDTO(event));
-		return ResponseEntity.ok(result);
-	}
+  EventService eventService;
+  EventMapper eventMapper;
 
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<EventDTO> findById(@PathVariable Long id) {
-		return ResponseEntity.ok(eventMapper.toDTO(eventService.findById(id)));
-	}
+  @GetMapping
+  public ResponseEntity<Page<EventDTO>> findAll(Pageable pageable) {
+    Page<EventDTO> result = eventService.findAll(pageable).map(event -> eventMapper.toDTO(event));
+    return ResponseEntity.ok(result);
+  }
 
-	@GetMapping(path = "/subscriptions/{id}")
-	public ResponseEntity<EventSubscriptionsDTO> findAllEventSubscriptions(@PathVariable Long id) {
-		return ResponseEntity.ok(eventService.findAllEventSubscriptions(id));
-	}
+  @GetMapping(value = "/{id}")
+  public ResponseEntity<EventDTO> findById(@PathVariable Long id) {
+    return ResponseEntity.ok(eventMapper.toDTO(eventService.findById(id)));
+  }
 
-	@PostMapping
-	public ResponseEntity<EventDTO> insert(@RequestBody EventDTO eventDto) {
-		Event event = eventService.insert(eventDto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(event.getId()).toUri();
-		return ResponseEntity.created(uri).body(eventMapper.toDTO(event));
-	}
+  @GetMapping(path = "/subscriptions/{id}")
+  public ResponseEntity<EventSubscriptionsDTO> findAllEventSubscriptions(@PathVariable Long id) {
+    return ResponseEntity.ok(eventService.findAllEventSubscriptions(id));
+  }
+
+  @PostMapping
+  public ResponseEntity<EventDTO> insert(@RequestBody EventDTO eventDto) {
+    Event event = eventService.insert(eventDto);
+    URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+        .buildAndExpand(event.getId()).toUri();
+    return ResponseEntity.created(uri).body(eventMapper.toDTO(event));
+  }
 }
